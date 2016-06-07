@@ -8,6 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Shopping Cart Demo</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 </head>
 <body>
     <sql:setDataSource var="myDS" driver="org.postgresql.Driver" url="jdbc:postgresql://localhost:5432/skistuff" user="rupert" password="secret"/>
@@ -30,12 +31,14 @@
                  </tr>
                  <c:set var="ind" value="1" scope="page" />
                  <c:forEach var="item" items="${listStuff.rows}">
-                    <td><input type="checkbox" name="check-${ind}" id="check-${ind}"></td>
-                    <td><input type="number" name="num-${ind}" id="num-${ind}" class="form-control" value="0" min="0" max="99" step="1"></td>
-                    <td><input type="text" name="id-${ind}" id="id-${ind}" value="${item.id}" class="form-control" readonly></td>
-                    <td><input type="text" name="prod-${ind}" id="prod-${ind}" value="${item.product}" class="form-control" readonly></td>
-                    <td><input type="text" name="cat-${ind}" id="cat-${ind}" value="${item.category}" class="form-control" readonly></td>
-                    <td><input type="text" name="price-${ind}" id="price-${ind}" value="${item.price}" class="form-control" readonly></td>
+                    <tr>
+                        <td><input type="checkbox" name="check-${ind}" id="check-${ind}"></td>
+                        <td><input type="number" name="num-${ind}" id="num-${ind}" class="form-control" value="0" min="0" max="99" step="1"></td>
+                        <td><input type="text" name="id-${ind}" id="id-${ind}" value="${item.id}" class="form-control" readonly></td>
+                        <td><input type="text" name="prod-${ind}" id="prod-${ind}" value="${item.product}" class="form-control" readonly></td>
+                        <td><input type="text" name="cat-${ind}" id="cat-${ind}" value="${item.category}" class="form-control" readonly></td>
+                        <td><input type="text" name="price-${ind}" id="price-${ind}" value="${item.price}" class="form-control" readonly></td>
+                    </tr>
                     <c:set var="ind" value="${ind+1}" />
                  </c:forEach>
             </table>
