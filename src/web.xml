@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<web-app >
+  <welcome-file-list>    
+    <welcome-file>shop.jsp</welcome-file>
+  </welcome-file-list>
+
+  <error-page>
+  	<exception-type>java.lang.Throwable</exception-type>
+  	<location>/error.jsp</location>
+  </error-page>
+
+<servlet>
+    <servlet-name>orderHandler</servlet-name>
+    <servlet-class>orders.OrderHandler</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>orderHandler</servlet-name>
+  <url-pattern>/handleOrder</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>orderPlacer</servlet-name>
+  <servlet-class>orders.OrderPlacer</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>orderPlacer</servlet-name>
+  <url-pattern>/placeOrder</url-pattern>
+</servlet-mapping>
+
+</web-app>
