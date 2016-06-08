@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page errorPage="error.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +27,7 @@
                  <c:set var="ind" value="1" scope="page" />
                  <c:forEach var="item" items="${items}">
                     <tr>
-                        <td><input type="number" name="num-${ind}" id="num-${ind}" class="form-control" value="0" min="0" max="99" step="1"></td>
+                        <td><input type="number" name="num-${ind}" id="num-${ind}" class="form-control" value="${item.qty}" min="0" max="99" step="1"></td>
                         <td><input type="text" name="id-${ind}" id="id-${ind}" value="${item.id}" class="form-control" readonly></td>
                         <td><input type="text" name="prod-${ind}" id="prod-${ind}" value="${item.product}" class="form-control" readonly></td>
                         <td><input type="text" name="cat-${ind}" id="cat-${ind}" value="${item.category}" class="form-control" readonly></td>
