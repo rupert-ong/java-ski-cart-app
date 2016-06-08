@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.ServletException;
+import javax.servlet.ServletException;
 
 public class OrderHandler extends HttpServlet {
     private BigDecimal total = BigDecimal.ZERO;
 
     @Override
-    public doPost(HttpServletRequest req, HttpServletResponse res) {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) {
         try{
             total = BigDecimal.ZERO;
             List<LineItem> lineItems = getAndVerifyInputs(req, res);
@@ -55,7 +55,7 @@ public class OrderHandler extends HttpServlet {
                 }
                 ind++;
             }
-        } catch(NumberFormatExeption e){
+        } catch(NumberFormatException e){
             sendErrorResponse(req, res, "Data validation errors occurred during processing");
             return null;
         }
@@ -66,7 +66,7 @@ public class OrderHandler extends HttpServlet {
     private void sendResponse(HttpServletRequest req, HttpServletResponse res, List<LineItem> items, BigDecimal totalPrice) {
         try{
             HttpSession session = req.getSession();
-            session.setAttribute("items", item);
+            session.setAttribute("items", items);
             session.setAttribute("total", totalPrice);
             res.sendRedirect("confirmOrder.jsp");
         } catch(IOException e) {}
