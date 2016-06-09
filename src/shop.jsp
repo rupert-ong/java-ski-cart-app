@@ -19,8 +19,6 @@
     <div class="container">
         <h1>Ski Equipment</h1>
         <form action="handleOrder" method="post">
-            <%-- Sent to OrderHandler servlet to iterate through items --%>
-            <input type="hidden" name="rowCount" value="${listStuff.rowCount}">
             <table class="table">
                 <tr>
                      <th>Buy</th>

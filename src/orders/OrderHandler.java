@@ -42,7 +42,6 @@ public class OrderHandler extends HttpServlet {
             while(it.hasNext()){
                 Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>)it.next();  // Convert Set returned by next() to Map.Entry object
                 String key = entry.getKey();
-                // String[] value = entry.getValue();
 
                 if(key.startsWith("check-")){
                     entry = (Map.Entry<String, String[]>)it.next();
@@ -72,32 +71,6 @@ public class OrderHandler extends HttpServlet {
             sendErrorResponse(req, res, "Data validation errors occurred during processing");
             return null;
         }
-
-        /*try {
-            rowCount = Integer.parseInt(req.getParameter("rowCount").trim());  // Hidden input field
-            for(int i=0; i<rowCount; i++){
-                String check = "check-" + ind;
-
-                if(req.getParameter(check) != null){  // checkbox checked
-                    int qty = Integer.parseInt(req.getParameter("num-"+ind).trim());
-                    int id = Integer.parseInt(req.getParameter("id-"+ind).trim());
-                    String product = req.getParameter("prod-"+ind).trim();
-                    String category = req.getParameter("cat-"+ind).trim();
-                    BigDecimal price = new BigDecimal(req.getParameter("price-"+ind).trim());
-
-                    lineItems.add(new LineItem(qty, id, product, category, price));
-
-                    if(qty > 0) {
-                        BigDecimal subTotal = price.multiply(new BigDecimal(qty));
-                        this.total = this.total.add(subTotal);
-                    }
-                }
-                ind++;
-            }
-        } catch(NumberFormatException e){
-            sendErrorResponse(req, res, "Data validation errors occurred during processing");
-            return null;
-        }*/
 
         return lineItems;
     }
