@@ -22,4 +22,9 @@ public class LineItem {
     public String getProduct() { return this.product; }
     public String getCategory() { return this.category; }
     public BigDecimal getPrice() { return this.price; }
+
+    @Override
+    public String toString() {
+        return getId() + " " + getQty() + " " + getProduct() + " " + getCategory() + " $" + getPrice() + "\n";
+    }
 }
