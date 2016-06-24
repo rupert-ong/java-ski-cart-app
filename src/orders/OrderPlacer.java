@@ -43,6 +43,10 @@ public class OrderPlacer extends HttpServlet{
             rowCount = Integer.parseInt(req.getParameter("rowCount").trim());
             for(int i=0; i<rowCount; i++){
                 int qty = Integer.parseInt(req.getParameter("num-"+ind).trim());
+                if(qty<1){
+                    ind++;
+                    continue;
+                }
                 int id = Integer.parseInt(req.getParameter("id-"+ind).trim());
                 String product = req.getParameter("prod-"+ind).trim();
                 String category = req.getParameter("cat-"+ind).trim();
@@ -70,7 +74,7 @@ public class OrderPlacer extends HttpServlet{
     }
 
     private void sendConfirmationEmail(String to, String confirmMsg) {
-        String from = "webmaster@skistuff.com"
+        String from = "webmaster@skistuff.com";
         String smtp_server = "localhost";
         int smtp_port = 2525;
 
@@ -84,10 +88,10 @@ public class OrderPlacer extends HttpServlet{
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(from));
             InternetAddress[] addr = {new InternetAddress(to)};
-            msg.setRecipients(Message.RecipientType, addr);
+            msg.setRecipients(Message.RecipientType.TO, addr);
             msg.setSubject("Ski Equipment Order Confirmation");
             msg.setSentDate(new Date());
-            msg.setText(msg);
+            msg.setText(confirmMsg);
             Transport.send(msg);
         } catch(MessagingException e){}
     }

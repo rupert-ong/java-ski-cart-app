@@ -38,9 +38,9 @@ public class OrderHandler extends HttpServlet {
             rowCount = Integer.parseInt(req.getParameter("rowCount").trim());  // Hidden input field
             for(int i=0; i<rowCount; i++){
                 String check = "check-" + ind;
+                int qty = Integer.parseInt(req.getParameter("num-"+ind).trim());
 
-                if(req.getParameter(check) != null){  // checkbox checked
-                    int qty = Integer.parseInt(req.getParameter("num-"+ind).trim());
+                if(req.getParameter(check) != null && qty>0){  // checkbox checked and qty is greater than 0
                     int id = Integer.parseInt(req.getParameter("id-"+ind).trim());
                     String product = req.getParameter("prod-"+ind).trim();
                     String category = req.getParameter("cat-"+ind).trim();
