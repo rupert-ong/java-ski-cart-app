@@ -1,12 +1,19 @@
 package orders;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
-import java.io.IOException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,13 +71,37 @@ public class OrderPlacer extends HttpServlet{
     }
 
     private void saveToDB(List<LineItem> lineItems) {
+        // Create Order instance
+        String email = "customer@no-email.com";
+        Order order = new Order(email, lineItems, this.total);
+
+        // Save to DB
+        Connection conn = getConnection();
+        String sql = "INSERT INTO customer_order(pid, email, quantity) VALUES (?,?,?)";
+
+        for(LineItem item : order.getItems()) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, item.getId());
+                pstmt.setString(2, order.getEmail());
+                pstmt.setInt(3, item.getQty());
+                pstmt.executeUpdate();
+                pstmt.close();
+            } catch(SQLException e){}
+        }
+
+        try {
+            conn.close();
+        } catch(SQLException e){}
+
+        // Send Email
         String msg = "Order Summary: \n";
 
-        for(LineItem item: lineItems) {
+        for(LineItem item : order.getItems()) {
             msg += item.toString();
         }
-        msg += "Total: $" + this.total + "\n";
-        sendConfirmationEmail("customer@no-email.com", msg);
+        msg += "Total: $" + order.getTotal() + "\n";
+        sendConfirmationEmail(order.getEmail(), msg);
     }
 
     private void sendConfirmationEmail(String to, String confirmMsg) {
@@ -104,4 +135,36 @@ public class OrderPlacer extends HttpServlet{
             res.sendRedirect("placeOrder.jsp");
         } catch(IOException e){}
     }
+
+    /**
+     * Convenience method to connect to DB
+     * @return connection to database
+     */
+    private Connection getConnection(){
+        String uri = "jdbc:postgresql://localhost/skistuff";
+        Properties props = setLoginForDB("rupert", "secret");
+        Connection conn = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(uri, props);
+        } 
+        catch(ClassNotFoundException e){}
+        catch(SQLException e) {}
+
+        return conn;
+    }
+
+    /**
+     * Sets login for database
+     * @param  uname  
+     * @param  passwd 
+     * @return A property (key, value) for login info
+     */
+    private Properties setLoginForDB(final String uname, final String passwd){
+        Properties props = new Properties();
+        props.setProperty("user", uname);
+        props.setProperty("password", passwd);
+        return props;
+    }
+
 }
