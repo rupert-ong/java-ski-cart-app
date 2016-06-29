@@ -18,7 +18,7 @@ This strictly educational, proof of concept side project can be found in the Lea
 Here's what you need to do to view this project:
 
 1. Install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html), the [Apache Tomcat](http://tomcat.apache.org/download-70.cgi) web server and the [Apache Ant](http://ant.apache.org/bindownload.cgi) build tool.
-2. Install [PostgreSQL](https://www.postgresql.org/download/). Import the enclosed database (the .backup or .sql file in the `data` folder) into a database called "skistuff". My database has a username of "rupert" and a password of "secret". If you change this, you will have to update the jsp/java files referencing the database.
+2. Install [PostgreSQL](https://www.postgresql.org/download/). Import the enclosed database (.sql file in the `data` folder) into a database called "skistuff". My database has a username of "rupert" and a password of "secret". If you change this, you will have to update the jsp/java files referencing the database.
 3. Set up and start your Apache Tomcat server instance.
 4. Within Windows Command Prompt, navigate to the root directory and run the command `ant deploy -Dwar.name=skicart`.
 5. Within Windows Command Prompt, start the fakeSMTP server (for testing purposes) by navigating to the `src` folder and running `java -jar fakeSMTP-2.0.jar -s -b -p 2525`. Emails will appear in the `src/received-emails` folder.
