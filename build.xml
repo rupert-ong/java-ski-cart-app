@@ -1,4 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>  
+
 <!-- This file (build.xml) is housed in the current working directory, hereafter cwd.
      There should be a src subdirectory:
 
@@ -62,15 +63,27 @@
 
         # Files with a .jar extension wind up in WEB-INF/lib.
 
+        # Files with a .tag extension wind up in WEB-INF/tags
+
         # Other other files (e.g., JavaScript, HTML, CSS, JSP) wind up in WAR's top level.
 
+     The Ant script creates a separate 'build' directory in which to do its work; your 'src' directory is
+     not changed. The command
+
+        ant clean
+
+     removes the 'build' directory and any .war file from the cwd.
+
     The build.xml file is easily editable if you'd like to make changes.
+
+    For EclipseLink JPA, place the persistence.xml file (and any of the optional files) in
+    the META-INF subdirectory of the working directory.
 -->
 
 <project name="TomcatProject" basedir="." default="usage">  
 
   <!-- #### Change for your system. #### -->
-  <property name="tomcat.home" value="C:\dev\software\springsource\pivotal-tc-server-developer-3.1.0.RELEASE\robeginjavaweb"/>
+  <property name="tomcat.home" value="/Users/martinkalin/tomcat8"/>
 
   <!-- Leave the rest as they are. -->
   <property name="tomcat.lib"  value="${tomcat.home}/lib"/>
@@ -115,15 +128,23 @@
     <mkdir dir="${build.dir}/WEB-INF/classes"/>
     <mkdir dir="${build.dir}/WEB-INF/lib"/>
     <mkdir dir="${build.dir}/WEB-INF/data"/>
-    
+    <mkdir dir="${build.dir}/WEB-INF/classes/META-INF"/>    
+
     <!-- Copy files from source to build directory  -->
     <copy todir="${build.dir}">
       <fileset dir="${src.dir}">
         <include name="**/*.java"/>
 	<include name="*.jsp"/>
 	<include name="*.html"/>
+	<include name="*.xhtml"/>
+	<include name="*.jsf"/>
 	<include name="*.js"/>
 	<include name="*.css"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}/WEB-INF/classes/META-INF">
+      <fileset dir="./META-INF">
+        <include name="*.xml"/>
       </fileset>
     </copy>
     <copy todir="${build.dir}/WEB-INF">
@@ -141,12 +162,17 @@
         <include name="*.jar"/>
       </fileset>
     </copy>
+    <copy todir="${build.dir}/WEB-INF/tags">
+      <fileset dir="${src.dir}">
+        <include name="*.tag"/>
+      </fileset>
+    </copy>
   </target>
   
   <target name="compile" depends="prepare" 
           description="compile main source tree java files">  
     <javac destdir="${build.dir}/WEB-INF/classes" debug="true"  
-           deprecation="false" optimize="false" failonerror="true">  
+           includeantruntime="false" deprecation="false" optimize="false" failonerror="true">  
       <src path="${src.dir}"/>  
       <classpath refid="master-classpath"/>  
     </javac>  
