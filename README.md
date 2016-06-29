@@ -32,6 +32,8 @@ Within the downloaded files, this is the relevant structure:
 ```
 java-ski-cart-app/
 ├── build.xml
+├── META-INF
+    └── persistence.xml
 └── src
     └── data/
         ├── skiStuff.backup
@@ -45,6 +47,9 @@ java-ski-cart-app/
     ├── jstl-api-1.2.jar
     ├── jstl-imp-1.2.jar
     ├── postgresql-jdbc.jar
+    ├── eclipselink.jar
+    ├── org.eclipse.persistence.jpa.modelgen.jar
+    ├── javax.persistence.jar
     ├── web.xml
     └── *.jsp/html/css
 ```
