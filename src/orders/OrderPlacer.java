@@ -36,8 +36,13 @@ public class OrderPlacer extends HttpServlet{
         try {
             total = BigDecimal.ZERO;
             List<LineItem> lineItems = getConfirmationInputs(req, res);
-            saveToDB(lineItems);
-            sendResponse(req, res, lineItems, total);
+
+            if(lineItems.size()>0) {
+                saveToDB(lineItems);
+                sendResponse(req, res, lineItems, total);
+            } else {
+                sendErrorResponse(req, res, "Please check something to purchase.");
+            }
         } catch(Exception e){}
     }
 
@@ -134,6 +139,14 @@ public class OrderPlacer extends HttpServlet{
             session.setAttribute("total", totalPrice);
             res.sendRedirect("placeOrder.jsp");
         } catch(IOException e){}
+    }
+
+    private void sendErrorResponse(HttpServletRequest req, HttpServletResponse res, String msg) {
+        try{
+            HttpSession session = req.getSession();
+            session.setAttribute("result", msg);
+            res.sendRedirect("badResult.jsp");
+        } catch(IOException e) {}
     }
 
     /**

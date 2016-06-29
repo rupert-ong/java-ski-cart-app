@@ -19,7 +19,12 @@ public class OrderHandler extends HttpServlet {
         try{
             total = BigDecimal.ZERO;
             List<LineItem> lineItems = getAndVerifyInputs(req, res);
-            sendResponse(req, res, lineItems, this.total);
+
+            if(lineItems.size() > 0) {
+                sendResponse(req, res, lineItems, this.total);
+            } else {
+                sendErrorResponse(req, res, "Please check something to purchase.");
+            }
         } catch(Exception e){}
     }
 
